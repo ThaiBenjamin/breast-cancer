@@ -67,18 +67,12 @@ def predict_tumor(features):
 # 6. Example Usage
 # ================================
 if __name__ == "__main__":
-    # Example: take the first row from dataset
     sample = X.iloc[0].values
     print("\nPrediction for first row in dataset:", predict_tumor(sample))
 
-    # Example: manual input (30 features)
     new_data = [17.99, 10.38, 122.8, 1001, 0.1184, 0.2776, 0.3001, 0.1471, 0.2419, 0.07871,
                 1.095, 0.9053, 8.589, 153.4, 0.006399, 0.04904, 0.05373, 0.01587, 0.03003,
                 0.006193, 25.38, 17.33, 184.6, 2019, 0.1622, 0.6656, 0.7119, 0.2654, 0.4601, 0.1189]
     
     print("Prediction for manual input:", predict_tumor(new_data))
 
-    # Example: batch predictions from another CSV (optional)
-    # new_data_df = pd.read_csv("new_patients.csv")
-    # predictions = model.predict(new_data_df)
-    # print("Batch predictions:", ["Malignant" if p == 1 else "Benign" for p in predictions])
