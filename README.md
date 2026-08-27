@@ -1,31 +1,30 @@
-# 🔬 Breast Cancer Predictor
+# Breast Cancer Classifier
 
-A workshop exercise in supervised machine learning — training a logistic regression classifier on the Wisconsin Breast Cancer Dataset to predict whether a tumor is malignant or benign.
+A workshop exercise in supervised learning: training a logistic regression classifier on
+the Wisconsin Breast Cancer Dataset to predict whether a tumor is malignant or benign.
 
-![Python](https://img.shields.io/badge/Python-3-3776AB?logo=python&logoColor=white)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikit-learn&logoColor=white)
-![Pandas](https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=white)
-![NumPy](https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=white)
+The dataset has 30 numeric features — cell radius, texture, perimeter, and so on — and a
+binary target, which makes it a clean setup for working through classification end to end.
 
----
+## What the script does
 
-## 📚 What I Was Learning
+Loads the CSV with pandas, drops the columns that aren't predictive, and encodes the
+categorical label. Splits into train and test sets with `train_test_split` so evaluation
+happens on data the model hasn't seen. Wraps `LogisticRegression` in a pipeline behind a
+`StandardScaler`, fits it, and reports accuracy along with precision, recall, and F1 via
+`classification_report`. The trained model is wrapped in a small function that takes a
+single sample and returns a prediction.
 
-The end-to-end supervised ML workflow — loading and cleaning a real dataset, splitting into train/test sets, training a model, evaluating with classification metrics, and exposing a prediction function.
+## What I took from it
 
----
+Using a real medical dataset made this land harder than a toy example would have.
 
-## 🔑 Key Things Practiced
+The lesson that stuck was why feature scaling matters. Logistic regression trained by
+gradient descent converges much faster and more reliably when all the features are on the
+same scale, and with 30 features measured in completely different units, that's not
+optional. Bundling `StandardScaler` into the pipeline rather than scaling by hand also means
+the test data gets the transform fit on the training data, instead of leaking.
 
-- **Data Preparation** — Loading CSV data with pandas, dropping irrelevant columns, encoding categorical labels
-- **Train/Test Split** — Using `train_test_split` for honest evaluation on held-out data
-- **Feature Scaling** — Wrapping logistic regression in a `StandardScaler` pipeline
-- **Model Training** — Fitting `LogisticRegression` from scikit-learn
-- **Evaluation** — Accuracy score, precision, recall, F1 via `classification_report`
-- **Prediction Function** — Wrapping the model in a clean API for single-sample predictions
-
----
-
-## 💡 What It Taught Me
-
-Using a real medical dataset made this more meaningful than a toy example. The Wisconsin Breast Cancer Dataset has 30 numeric features (cell radius, texture, perimeter, etc.) and a binary target — a clean setup for understanding classification. The most important lesson was why feature scaling matters: logistic regression with gradient descent converges much faster and more reliably when all features are on the same scale, which is why `StandardScaler` gets bundled into the pipeline. Using `classification_report` also taught me that accuracy alone is misleading for medical data — you care a lot more about false negatives than false positives.
+`classification_report` taught me the other half: accuracy alone is misleading here. On
+medical data you care much more about false negatives than false positives, and a single
+accuracy number hides that distinction entirely.
